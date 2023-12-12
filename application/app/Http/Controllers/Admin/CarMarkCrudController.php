@@ -45,6 +45,7 @@ class CarMarkCrudController extends CrudController
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
          */
+
     }
 
     /**
@@ -62,6 +63,7 @@ class CarMarkCrudController extends CrudController
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');
          */
+
     }
 
     /**

@@ -31,4 +31,14 @@ class CarModel extends Model
     {
         return $this->belongsTo(CarMark::class, 'mark_id');
     }
+
+    public static function getSelectVariant()
+    {
+        $variants = self::query()->get();
+        $options = [];
+        foreach ($variants as $value) {
+            $options[$value->id] = $value->name;
+        }
+        return $options;
+    }
 }

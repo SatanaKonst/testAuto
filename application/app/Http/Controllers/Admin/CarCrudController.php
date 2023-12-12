@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CarRequest;
+use App\Models\CarMark;
+use App\Models\CarModel;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -21,7 +24,7 @@ class CarCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +36,7 @@ class CarCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -49,24 +52,47 @@ class CarCrudController extends CrudController
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(CarRequest::class);
-        CRUD::setFromDb(); // set fields from db columns.
+//        CRUD::setFromDb(); // set fields from db columns.
 
         /**
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');
          */
+        CRUD::field([
+            'name' => 'mark_id',
+            'label' => "Марка",
+            'type' => 'select_from_array',
+            'options' => CarMark::getSelectVariant(),
+            'allows_null' => false,
+            'default' => '1',
+        ]);
+        CRUD::field([
+            'name' => 'model_id',
+            'label' => "Модель",
+            'type' => 'select_from_array',
+            'options' => CarModel::getSelectVariant(),
+            'allows_null' => false,
+            'default' => '1',
+        ]);
+        CRUD::field('year')->label('Год');
+        CRUD::field([   // Color
+            'name' => 'color',
+            'label' => 'Цвет',
+            'type' => 'color',
+            'default' => '#ffff',
+        ]);
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
@@ -74,4 +100,5 @@ class CarCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
+
 }

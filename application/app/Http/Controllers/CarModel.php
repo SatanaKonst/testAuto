@@ -17,4 +17,6 @@ class CarModel extends Controller
         }
         return response()->json($query->get()->toArray());
     }
+
+
 }

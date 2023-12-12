@@ -30,6 +30,7 @@ class Car extends Controller
     public function add(Request $request)
     {
         try {
+            file_put_contents($_SERVER['DOCUMENT_ROOT'].'/test.log', 'HELLO');
             $request->validate([
                 'mark_id' => 'required|integer',
                 'model_id' => 'required|integer'

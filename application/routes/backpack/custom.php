@@ -19,4 +19,5 @@ Route::group([
     Route::crud('car', 'CarCrudController');
     Route::crud('car-mark', 'CarMarkCrudController');
     Route::crud('car-model', 'CarModelCrudController');
+    Route::crud('user', 'UserCrudController');
 }); // this should be the absolute last line of this file

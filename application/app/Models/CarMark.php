@@ -24,4 +24,13 @@ class CarMark extends Model
         'name'
     ];
 
+    public static function getSelectVariant(){
+        $variants = self::query()->get();
+        $options = [];
+        foreach ($variants as $value) {
+            $options[$value->id] = $value->name;
+        }
+        return $options;
+    }
+
 }
