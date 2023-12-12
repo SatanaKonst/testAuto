@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Car;
+use App\Http\Controllers\CarMark;
+use App\Http\Controllers\CarModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/carMarks', [CarMark::class, 'get']);
+Route::get('/carModels', [CarModel::class, 'get']);
+Route::get('/cars', [Car::class, 'get']);
+Route::post('/carAdd', [Car::class, 'add']);
+Route::post('/carUpdate', [Car::class, 'update']);
+Route::post('/carDelete', [Car::class, 'delete']);
