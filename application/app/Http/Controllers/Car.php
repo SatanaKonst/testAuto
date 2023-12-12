@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CarRequest;
 use Illuminate\Http\Request;
+use LVR\Colour\Hex;
 use Mockery\Exception;
 
 class Car extends Controller
 {
+
     /** Получить список автомобилей
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function get(Request $request)
+    public
+    function get(Request $request)
     {
         $filter = $request->get('filter');
         $query = \App\Models\Car::query();
@@ -20,6 +24,7 @@ class Car extends Controller
                 $query->where($key, '=', $value);
             }
         }
+
         return response()->json($query->get()->toArray());
     }
 
@@ -30,11 +35,7 @@ class Car extends Controller
     public function add(Request $request)
     {
         try {
-            file_put_contents($_SERVER['DOCUMENT_ROOT'].'/test.log', 'HELLO');
-            $request->validate([
-                'mark_id' => 'required|integer',
-                'model_id' => 'required|integer'
-            ]);
+            $request->validate((new CarRequest())->rules());
             $newCarInstance = new \App\Models\Car();
             $newCarInstance->mark_id = $request->get('mark_id');
             $newCarInstance->model_id = $request->get('model_id');
@@ -57,12 +58,18 @@ class Car extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request)
+    public
+    function update(Request $request)
     {
         try {
-            $request->validate([
-                'id' => 'required|integer',
-            ]);
+            $request->validate(
+                array_merge(
+                    [
+                        'id' => 'required|integer',
+                    ],
+                    (new CarRequest())->rules()
+                )
+            );
             $car = \App\Models\Car::query()->where('id', '=', $request->get('id'))->first();
             if (is_null($car)) {
                 throw new Exception('Car not found');
@@ -72,6 +79,7 @@ class Car extends Controller
             $car->model_id = ($request->has('model_id')) ? $request->get('model_id') : $car->model_id;
             $car->year = ($request->has('year')) ? $request->get('year') : $car->year;
             $car->color = ($request->has('color')) ? $request->get('color') : $car->color;
+            $car->mileage = ($request->has('mileage')) ? $request->get('mileage') : $car->mileage;
 
             return response()->json($car->save());
         } catch (\Throwable $exception) {
@@ -83,7 +91,9 @@ class Car extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(Request $request){
+    public
+    function delete(Request $request)
+    {
         try {
             $request->validate([
                 'id' => 'required|integer',

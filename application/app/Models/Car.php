@@ -30,6 +30,7 @@ class Car extends Model
         'model_id',
         'year',
         'color',
+        'mileage'
     ];
     public function getModel(): belongsTo
     {

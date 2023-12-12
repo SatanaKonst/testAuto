@@ -86,8 +86,11 @@ class CarCrudController extends CrudController
             'name' => 'color',
             'label' => 'Цвет',
             'type' => 'color',
-            'default' => '#ffff',
+            'default' => '',
+            'allows_null' => true,
         ]);
+        CRUD::field('mileage')->label('Пробег');
+
     }
 
     /**

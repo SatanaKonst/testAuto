@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use LVR\Colour\Hex;
 
 class CarRequest extends FormRequest
 {
@@ -25,7 +26,11 @@ class CarRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'mark_id' => 'required|integer',
+            'model_id' => 'required|integer',
+            'year' => 'date|nullable',
+            'color' => array(new Hex, 'nullable'),
+            'mileage' => 'integer|nullable'
         ];
     }
 
